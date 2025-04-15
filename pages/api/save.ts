@@ -1,3 +1,4 @@
+// pages/api/save.ts
 import type { NextApiRequest, NextApiResponse } from 'next';
 import clientPromise from '../../lib/mongodb';
 
@@ -8,9 +9,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const client = await clientPromise;
       const db = client.db('jj-swim');
       const collection = db.collection('contents');
+
       console.log('📦 저장 요청:', { title, content, imageName });
       await collection.insertOne({ title, content, imageName, createdAt: new Date() });
-      console.log('✅ 저장 완료');
+
       res.status(200).json({ message: '저장 성공' });
     } catch (error) {
       console.error('❌ 저장 실패:', error);
