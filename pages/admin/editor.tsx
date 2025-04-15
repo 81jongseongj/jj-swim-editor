@@ -1,8 +1,8 @@
 import { useState } from "react";
 
 export default function AdminEditorPage() {
-  const [title, setTitle] = useState("1");
-  const [content, setContent] = useState("2");
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
   const [image, setImage] = useState<File | null>(null);
   const [saved, setSaved] = useState(false);
 
