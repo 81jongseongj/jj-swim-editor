@@ -35,7 +35,7 @@ export default function AdminEditorPage() {
         console.error("❌ 저장 실패:", err);
       }
     } catch (error) {
-      console.error("❌ 요청 실패:", error);
+      console.error("❌ API 요청 실패:", error);
     }
   };
 
