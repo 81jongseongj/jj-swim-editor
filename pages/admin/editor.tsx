@@ -12,16 +12,31 @@ export default function AdminEditorPage() {
     }
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const formData = {
       title,
       content,
       imageName: image?.name || "이미지 없음",
     };
 
-    console.log("✅ 저장된 데이터:", formData);
-    setSaved(true);
-    setTimeout(() => setSaved(false), 3000);
+    try {
+      const res = await fetch("/api/save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (res.ok) {
+        console.log("✅ 저장된 데이터:", formData);
+        setSaved(true);
+        setTimeout(() => setSaved(false), 3000);
+      } else {
+        const err = await res.json();
+        console.error("❌ 저장 실패:", err);
+      }
+    } catch (error) {
+      console.error("❌ 요청 실패:", error);
+    }
   };
 
   return (
@@ -59,7 +74,9 @@ export default function AdminEditorPage() {
           <label className="block font-semibold mb-2">미리보기</label>
           <div className="p-4 border bg-gray-50 rounded-xl min-h-[100px]">
             <p className="text-gray-600 italic">
-              {content ? content : "여기에 작성한 내용이 미리보기로 표시됩니다"}
+              {content
+                ? content
+                : "여기에 작성한 내용이 미리보기로 표시됩니다"}
             </p>
           </div>
         </div>
