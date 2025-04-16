@@ -1,3 +1,4 @@
+console.log("🔔 API /api/save 진입 성공");
 import type { NextApiRequest, NextApiResponse } from 'next';
 import clientPromise from '../../lib/mongodb';
 

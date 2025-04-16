@@ -18,7 +18,9 @@ export default function AdminEditorPage() {
       content,
       imageName: image?.name || "이미지 없음",
     };
-
+  
+    console.log("✅ 저장된 데이터:", formData); // 클라이언트 확인용
+  
     try {
       const res = await fetch("/api/save", {
         method: "POST",
@@ -27,19 +29,20 @@ export default function AdminEditorPage() {
         },
         body: JSON.stringify(formData),
       });
-
-      if (res.ok) {
-        console.log("✅ 저장된 데이터:", formData);
-        setSaved(true);
-        setTimeout(() => setSaved(false), 3000);
-      } else {
-        const err = await res.json();
-        console.error("❌ 저장 실패:", err);
+  
+      if (!res.ok) {
+        throw new Error("❌ 저장 실패");
       }
+  
+      const result = await res.json();
+      console.log("🎉 서버 응답:", result);
+      setSaved(true);
+      setTimeout(() => setSaved(false), 3000);
     } catch (err) {
-      console.error("❌ API 요청 실패:", err);
+      console.error("🚨 저장 요청 실패:", err);
     }
   };
+  
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
